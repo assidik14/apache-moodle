@@ -1,0 +1,31 @@
+services:
+  moodle:
+    container_name: moodle-container
+    image: assidik14/apache-moodle:4.0.2
+    ports:
+      - 80:80
+    links:
+      - mysql
+    depends_on:
+      - mysql
+#    volumes:
+#      - moodledata:/var/www/moodledata
+    networks:
+      - moodle-networks
+
+  mysql:
+    container_name: mysql-container
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=moodle
+      - MYSQL_USER=moodle
+      - MYSQL_PASSWORD=password
+      - MYSQL_RANDOM_ROOT_PASSWORD='yes'
+    networks:
+      - moodle-networks
+
+networks:
+  moodle-networks:
+    name: moodle-networks
